@@ -1,19 +1,42 @@
 import tkinter as tk
+import customtkinter as ctk
 from time import strftime
 
-window = tk.Tk()
-window.title("Clock")
+
+ctk.set_appearance_mode("System")
+ctk.set_default_color_theme("blue")
+
+font_style = ("ds-digital", 180)
+bg_fg_color = "#000000"
+clock_color = "#00FF00"
 
 
-def time():
-    string = strftime("%H:%M:%S %p")
-    label.config(text=string)
-    label.after(1000, time)
+class DigitalClock:
+    def __init__(self):
+        self.window = ctk.CTk()
+        self.window.geometry("600x150")
+        self.window.resizable(0, 0)
+        self.window.title("CLARSEN: Digital Clock")
+
+        self.clock = strftime("%H:%M:%S %p")
+        self.frame = self.create_frame()
+        self.label = self.create_label()
+
+    def create_frame(self):
+        frame = ctk.CTkFrame(self.window, width=580,
+                             height=130, corner_radius=10, fg_color=bg_fg_color)
+        frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        return frame
+
+    def create_label(self):
+        label = tk.Label(self.frame, text=self.clock, font=font_style,
+                         background=bg_fg_color, foreground=clock_color)
+        label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+    def run(self):
+        self.window.mainloop()
 
 
-label = tk.Label(window, font=("ds-digital", 80),
-                 background="black", foreground="cyan")
-label.pack(anchor=tk.CENTER)
-
-time()
-tk.mainloop()
+if __name__ == "__main__":
+    digital_clock = DigitalClock()
+    digital_clock.run()
